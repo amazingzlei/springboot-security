@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div sec:authorize="!isAuthenticated()">
+        <a th:href="@{/userlogin}">请登录</a>
+    </div>
+    <!-- 登录后显示的内容 -->
+    <div sec:authorize="isAuthenticated()">
+        <p>
+            <span sec:authentication="name"></span>您好，您拥有
+            <span sec:authentication="principal.authorities"></span>
+        </p>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="注销"/>
+        </form>
+    </div>
+    <div>
+        <!-- 设置访问权限，即拥有什么权限就显示能点的链接 -->
+        <div sec:authorize="hasRole('VIP1')">
+            <h1>初级功法</h1>
+            <a th:href="@{/level1}">七伤拳</a>
+        </div>
+        <hr>
+        <div sec:authorize="hasRole('VIP2')">
+            <h1>中级功法</h1>
+            <a th:href="@{/level2}">葵花宝典</a>
+        </div>
+        <hr>
+        <div sec:authorize="hasRole('VIP3')">
+            <h1>高级功法</h1>
+            <a th:href="@{/level3}">吸星大法</a>
+        </div>
+    </div>
+</body>
+</html>
